@@ -2,7 +2,7 @@ package model.sistema;
 
 public class Relatorio {
 
-    private Relatorio instancia;
+    private static Relatorio instancia;
 
     private int totalColaboradores;
     private int totalProjetos;
@@ -14,8 +14,8 @@ public class Relatorio {
 
     private Relatorio() {
 
-        this.totalProjetos = 0;
         this.totalColaboradores = 0;
+        this.totalProjetos = 0;
         this.totalProjetosConcluidos = 0;
         this.totalProjetosElaboracao = 0;
         this.totalProjetosAndamento = 0;
@@ -23,14 +23,63 @@ public class Relatorio {
         this.totalOrientacoes = 0;
     }
 
-    public Relatorio getInstancia() {
+    public static Relatorio getInstancia() {
 
-        if(this.instancia == null) {
-            this.instancia = new Relatorio();
+        if(instancia == null) {
+            instancia = new Relatorio();
         }
-        return this.instancia;
+        return instancia;
     }
 
+
+    //VARIAVEIS
+    public void incrementarColaboradores() {
+
+        this.totalColaboradores++;
+    }
+
+    public void incrementarProjetos() {
+
+        this.totalProjetos++;
+    }
+
+    public void incrementarProjetosConcluidos() {
+
+        this.totalProjetosConcluidos++;
+    }
+
+    public void incrementarProjetosElaboracao() {
+
+        this.totalProjetosElaboracao++;
+    }
+
+    public void decrementarProjetosElaboracao() {
+
+        this.totalProjetosElaboracao--;
+    }
+
+    public void incrementarProjetosAndamento() {
+
+        this.totalProjetosAndamento++;
+    }
+
+    public void decrementarProjetosAndamento() {
+
+        this.totalProjetosAndamento--;
+    }
+
+    public void incrementarPublicacoes() {
+
+        this.totalPublicacoes++;
+    }
+
+    public void incrementarOrientacoes() {
+
+        this.totalOrientacoes++;
+    }
+
+
+    //GERAL
     public String toString() {
 
         return ("\n\t\t[Relatorio]\n\n" +

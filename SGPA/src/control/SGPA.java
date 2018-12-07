@@ -5,6 +5,7 @@ import model.Orientacao;
 import model.Projeto;
 import model.Publicacao;
 import model.sistema.Conta;
+import model.sistema.Relatorio;
 import view.Console;
 
 import java.util.ArrayList;
@@ -15,6 +16,7 @@ public class SGPA {
 
     private Conta admin;
 
+    private Relatorio relatorio;
     private ArrayList<Colaborador> listaColaboradores;
     private ArrayList<Projeto> listaProjetos;
     private ArrayList<Publicacao> listaPublicacoes;
@@ -23,6 +25,7 @@ public class SGPA {
     private SGPA() {
 
         this.admin = Conta.getInstancia();
+        this.relatorio = Relatorio.getInstancia();
         this.listaColaboradores = new ArrayList<>();
         this.listaProjetos = new ArrayList<>();
         this.listaPublicacoes = new ArrayList<>();
@@ -62,6 +65,84 @@ public class SGPA {
 
     private void menuPrincipal() {
 
+        boolean sair = false;
+        int opcao;
+
+        do {
+            Console.menuPrincipal();
+            opcao = Input.validarOpcao(1, 9);
+
+            switch(opcao) {
+                case 1:
+                    adicionarColaborador();
+                    break;
+                case 2:
+                    criarProjeto();
+                    break;
+                case 3:
+                    projetos();
+                    break;
+                case 4:
+                    publicacoes();
+                    break;
+                case 5:
+                    orientacoes();
+                    break;
+                case 6:
+                    adicionarPublicacao();
+                    break;
+                case 7:
+                    adicionarOrientacao();
+                    break;
+                case 8:
+                    informacoes();
+                    break;
+                case 9:
+                default:
+                    sair = true;
+            }
+        } while(!sair);
+    }
+
+    private void adicionarColaborador() {
+
         //TODO
     }
+
+    private void criarProjeto() {
+
+        //TODO
+    }
+
+    private void projetos() {
+
+        //TODO
+    }
+
+    private void publicacoes() {
+
+        //TODO
+    }
+
+    private void orientacoes() {
+
+        //TODO
+    }
+
+    private void adicionarPublicacao() {
+
+        //TODO
+    }
+
+    private void adicionarOrientacao() {
+
+        //TODO
+    }
+
+    private void informacoes() {
+
+
+        //TODO
+    }
+
 }

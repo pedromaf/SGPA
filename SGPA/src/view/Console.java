@@ -5,7 +5,7 @@ public class Console {
     //GERAL
     public static void selecioneOpcao() {
 
-        System.out.println("Digite o numero da opcao:");
+        System.out.println("\nDigite o numero da opcao:");
     }
 
 
@@ -105,5 +105,12 @@ public class Console {
     public static void requisitosNecessariosConcluir() {
 
         System.out.println("Projeto nao atende aos requisitos minimos para ser concluido!\n");
+    }
+
+
+    //ORIENTACAO
+    public static void autorNaoEProfessor() {
+
+        System.out.println("Erro! Apenas professores podem adicionar orientacoes.\n");
     }
 }
