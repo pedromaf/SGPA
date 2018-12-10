@@ -30,8 +30,6 @@ public class Colaborador {
     }
 
 
-
-
     //GERAL
     public boolean eProfessor() {
 

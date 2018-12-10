@@ -74,7 +74,7 @@ public class SGPA {
 
             switch(opcao) {
                 case 1:
-                    adicionarColaborador();
+                    registrarColaborador();
                     break;
                 case 2:
                     criarProjeto();
@@ -104,19 +104,111 @@ public class SGPA {
         } while(!sair);
     }
 
-    private void adicionarColaborador() {
+    private void registrarColaborador() {
 
-        //TODO
+        String nome;
+        String email;
+        int opcao;
+        Colaborador.Tipo tipo;
+
+        Console.solicitarNome();
+        nome = Input.lerString();
+
+        Console.solicitarEmail();
+        email = Input.lerString();
+
+        Console.menuSolicitarTipo();
+        opcao = Input.validarOpcao(1,5);
+
+        switch(opcao) {
+            case 1:
+                tipo = Colaborador.Tipo.PESQUISADOR;
+                break;
+            case 2:
+                tipo = Colaborador.Tipo.PROFESSOR;
+                break;
+            case 3:
+                tipo = Colaborador.Tipo.ALUNODOUTORADO;
+                break;
+            case 4:
+                tipo = Colaborador.Tipo.ALUNOMESTRADO;
+                break;
+            case 5:
+            default:
+                tipo = Colaborador.Tipo.ALUNOGRADUACAO;
+        }
+
+        this.listaColaboradores.add(new Colaborador(nome, email, tipo));
+        Console.colaboradorRegistrado();
     }
 
     private void criarProjeto() {
 
-        //TODO
+        String titulo;
+        String descricao;
+        String objetivo;
+        Projeto novoProjeto;
+
+        Console.solicitarTituloProjeto();
+        titulo = Input.lerString();
+
+        Console.solicitarDescricaoProjeto();
+        descricao = Input.lerString();
+
+        Console.solicitarObjetivoProjeto();
+        objetivo = Input.lerString();
+
+        novoProjeto = new Projeto(titulo, descricao, objetivo);
+        this.listaProjetos.add(novoProjeto);
+        Console.projetoCriado();
+        menuProjeto(novoProjeto);
     }
 
     private void projetos() {
 
-        //TODO
+        if(!this.listaProjetos.isEmpty()) {
+            int lista = 0;
+            int opcao;
+
+            for(Projeto atual: this.listaProjetos) {
+                Console.listar(++lista, atual.toString());
+            }
+
+        } else {
+            Console.listaProjetosVazia();
+        }
+    }
+
+    public void menuProjeto(Projeto projeto) {
+
+        int opcao;
+        boolean voltar = false;
+
+        do {
+            Console.menuProjeto(projeto.getTitulo(), projeto.toString(), projeto.emElaboracao());
+            opcao = Input.validarOpcao(1, 6);
+
+            switch(opcao) {
+                case 1:
+                    alocarColaborador(projeto);
+                    break;
+                case 2:
+                    projeto.alterarInformacoes();
+                    break;
+                case 3:
+                    associarPublicacao();
+                    break;
+                case 4:
+                    projeto.removerColaborador();
+                    break;
+                case 5:
+                    projeto.alterarEstado();
+                    break;
+                case 6:
+                default:
+                    voltar = true;
+            }
+        } while(!voltar);
     }
 
     private void publicacoes() {

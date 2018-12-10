@@ -8,6 +8,11 @@ public class Console {
         System.out.println("\nDigite o numero da opcao:");
     }
 
+    public static void listar(int opcao, String informacao) {
+
+        System.out.println("[" + opcao + "] " + informacao);
+    }
+
 
     //LOGIN
     public static void loginInvalido() {
@@ -35,6 +40,31 @@ public class Console {
     public static void solicitarSenha() {
 
         System.out.println("Digite a senha:");
+    }
+
+    public static void solicitarNome() {
+
+        System.out.println("Digite o nome do colaborador:");
+    }
+
+    public static void solicitarEmail() {
+
+        System.out.println("Digite o email do colaborador:");
+    }
+
+    public static void solicitarTituloProjeto() {
+
+        System.out.println("Digite o titulo do projeto:");
+    }
+
+    public static void solicitarDescricaoProjeto() {
+
+        System.out.println("Digite a descricao do projeto:");
+    }
+
+    public static void solicitarObjetivoProjeto() {
+
+        System.out.println("Digite o objetivo do projeto:");
     }
 
 
@@ -95,6 +125,26 @@ public class Console {
         selecioneOpcao();
     }
 
+    public static void menuSolicitarTipo() {
+
+        System.out.println("\nSelecione o tipo de colaborador:\n");
+        System.out.println("[1] Pesquisador");
+        System.out.println("[2] Professor");
+        System.out.println("[3] Aluno de doutorado");
+        System.out.println("[4] Aluno de mestrado");
+        System.out.println("[5] Aluno de graduacao");
+
+        selecioneOpcao();
+    }
+
+
+
+    //REGISTRAR COLABORADOR
+    public static void colaboradorRegistrado() {
+
+        System.out.println("Colaborador registrado!\n");
+    }
+
 
     //PROJETO
     public static void requisitosNecessariosIniciar() {
@@ -106,6 +156,17 @@ public class Console {
 
         System.out.println("Projeto nao atende aos requisitos minimos para ser concluido!\n");
     }
+
+    public static void projetoCriado() {
+
+        System.out.println("Projeto criado!\n");
+    }
+
+    public static void listaProjetosVazia() {
+
+        System.out.println("Ainda nao ha projetos.\n");
+    }
+
 
 
     //ORIENTACAO

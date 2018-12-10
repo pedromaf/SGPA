@@ -8,9 +8,6 @@ public class Main {
 
         SGPA sgpa = SGPA.getInstancia();
 
-        String usuario;
-        String senha;
-
         boolean sair = false;
         int opcao;
 

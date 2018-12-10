@@ -1,5 +1,6 @@
 package model;
 
+import control.Input;
 import model.sistema.Data;
 import view.Console;
 
@@ -33,6 +34,14 @@ public class Projeto {
         this.estado = Estado.ELABORACAO;
     }
 
+    //ALTERAR INFORMACOES
+    public void alterarInformacoes() {
+
+        //TODO
+    }
+
+
+    //VALIDACAO
     private boolean validarRequesitosMinimosIniciar() {
 
         //TODO
@@ -63,5 +72,23 @@ public class Projeto {
         } else {
             Console.requisitosNecessariosConcluir();
         }
+    }
+
+
+    //GERAL
+    public String getTitulo() {
+
+        return this.titulo;
+    }
+
+    public boolean emElaboracao() {
+
+        return (this.estado == Estado.ELABORACAO);
+    }
+
+    public String toString() {
+
+        return ("Titulo: " + this.titulo + "\n" +
+                "Descricao: " + this.descricao + "\n");
     }
 }
