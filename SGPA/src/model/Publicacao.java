@@ -21,9 +21,15 @@ public class Publicacao {
     }
 
     //GERAL
+    public String getTitulo() {
+
+        return (this.titulo + " (" + this.anoPublicacao + ")");
+    }
+
     public String toString() {
 
-        return ("Titulo: " + this.titulo + " (" + this.anoPublicacao + ")" + "\n" +
-                "Publicacao: " + this.conferenciaDePublicacao + "\n");
+        return ("Titulo: " + getTitulo() + "\n" +
+                "Publicacao: " + this.conferenciaDePublicacao + "\n" +
+                (this.projetoAssociado != null ? ("Projeto: " + this.projetoAssociado.getTitulo()) : ""));
     }
 }

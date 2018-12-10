@@ -13,6 +13,11 @@ public class Console {
         System.out.println("[" + opcao + "] " + informacao);
     }
 
+    public static void mostrar(String informacao) {
+
+        System.out.println(informacao);
+    }
+
 
     //LOGIN
     public static void loginInvalido() {
@@ -65,6 +70,36 @@ public class Console {
     public static void solicitarObjetivoProjeto() {
 
         System.out.println("Digite o objetivo do projeto:");
+    }
+
+    public static void solicitarTituloPublicacao() {
+
+        System.out.println("Digite o titulo da publicacao:");
+    }
+
+    public static void solicitarConferenciaDePublicacao() {
+
+        System.out.println("Digite o nome da conferencia de publicacao:");
+    }
+
+    public static void solicitarAnoPublicacao() {
+
+        System.out.println("Digite o ano de publicacao:");
+    }
+
+    public static void solicitarTituloOrientacao() {
+
+        System.out.println("Digite o titulo da orientacao:");
+    }
+
+    public static void selecioneAutorOrientacao() {
+
+        System.out.println("Selecione o autor da orientacao:");
+    }
+
+    public static void solicitarTextoOrientacao() {
+
+        System.out.println("Digite o texto da orientacao:");
     }
 
 
@@ -137,6 +172,15 @@ public class Console {
         selecioneOpcao();
     }
 
+    public static void menuOutroAutor() {
+
+        System.out.println("Selecionar outro autor?");
+        System.out.println("[1] Sim");
+        System.out.println("[2] Nao");
+
+        selecioneOpcao();
+    }
+
 
 
     //REGISTRAR COLABORADOR
@@ -167,11 +211,62 @@ public class Console {
         System.out.println("Ainda nao ha projetos.\n");
     }
 
+    public static void projetoJaConcluido() {
+
+        System.out.println("Erro! Projeto ja foi concluido.\n");
+    }
+
+    public static void projetoConcluido() {
+
+        System.out.println("Projeto concluido!\n");
+    }
+
+    public static void projetoIniciado() {
+
+        System.out.println("Projeto Iniciado!\n");
+    }
+
+
+    //PUBLICACAO
+    public static void listaPublicacoesVazia() {
+
+        System.out.println("Ainda nao ha publicacoes.\n");
+    }
+
+    public static void nenhumAutorDisponivel() {
+
+        System.out.println("Nao ha colaboradores no laboratorio.\n");
+    }
+
+    public static void selecioneOsAutores() {
+
+        System.out.println("Selecione os autores:");
+    }
+
+    public static void publicacaoAdicionada() {
+
+        System.out.println("Publicacao adicionada!\n");
+    }
+
+    public static void autorJaSelecionado() {
+
+        System.out.println("Voce ja selecionou este autor!\n");
+    }
 
 
     //ORIENTACAO
     public static void autorNaoEProfessor() {
 
         System.out.println("Erro! Apenas professores podem adicionar orientacoes.\n");
+    }
+
+    public static void listaOrientacoesVazia() {
+
+        System.out.println("Ainda nao ha orientacoes.\n");
+    }
+
+    public static void orientacaoAdicionada() {
+
+        System.out.println("Orientacao adicionada!\n");
     }
 }

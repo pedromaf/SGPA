@@ -10,8 +10,7 @@ import view.Console;
 
 import java.util.ArrayList;
 
-public class SGPA {
-
+class SGPA {
     private static SGPA instancia;
 
     private Conta admin;
@@ -32,7 +31,7 @@ public class SGPA {
         this.listaOrientacoes = new ArrayList<>();
     }
 
-    public static SGPA getInstancia() {
+    static SGPA getInstancia() {
 
         if(instancia == null) {
             instancia = new SGPA();
@@ -40,7 +39,7 @@ public class SGPA {
         return instancia;
     }
 
-    public void entrar() {
+    void entrar() {
 
         String usuario;
         String senha;
@@ -95,7 +94,7 @@ public class SGPA {
                     adicionarOrientacao();
                     break;
                 case 8:
-                    informacoes();
+                    menuInformacoes();
                     break;
                 case 9:
                 default:
@@ -140,6 +139,7 @@ public class SGPA {
 
         this.listaColaboradores.add(new Colaborador(nome, email, tipo));
         Console.colaboradorRegistrado();
+        this.relatorio.incrementarColaboradores();
     }
 
     private void criarProjeto() {
@@ -161,6 +161,8 @@ public class SGPA {
         novoProjeto = new Projeto(titulo, descricao, objetivo);
         this.listaProjetos.add(novoProjeto);
         Console.projetoCriado();
+        this.relatorio.incrementarProjetos();
+        this.relatorio.incrementarProjetosElaboracao();
         menuProjeto(novoProjeto);
     }
 
@@ -174,12 +176,19 @@ public class SGPA {
                 Console.listar(++lista, atual.toString());
             }
 
+            Console.listar(++lista, "Voltar");
+            Console.selecioneOpcao();
+            opcao = Input.validarOpcao(1, lista);
+
+            if(opcao != lista) {
+                menuProjeto(this.listaProjetos.get(opcao-1));
+            }
         } else {
             Console.listaProjetosVazia();
         }
     }
 
-    public void menuProjeto(Projeto projeto) {
+    private void menuProjeto(Projeto projeto) {
 
         int opcao;
         boolean voltar = false;
@@ -196,7 +205,7 @@ public class SGPA {
                     projeto.alterarInformacoes();
                     break;
                 case 3:
-                    associarPublicacao();
+                    associarPublicacao(projeto);
                     break;
                 case 4:
                     projeto.removerColaborador();
@@ -213,26 +222,192 @@ public class SGPA {
 
     private void publicacoes() {
 
-        //TODO
+        if(!this.listaPublicacoes.isEmpty()) {
+            int lista = 0;
+            int opcao;
+
+            for(Publicacao atual: this.listaPublicacoes) {
+                Console.listar(++lista, atual.getTitulo());
+            }
+
+            Console.listar(++lista, "Voltar");
+            Console.selecioneOpcao();
+            opcao = Input.validarOpcao(1, lista);
+
+            if(opcao != lista) {
+                Console.mostrar(this.listaPublicacoes.get(opcao-1).toString());
+            }
+        } else {
+            Console.listaPublicacoesVazia();
+        }
     }
 
     private void orientacoes() {
 
-        //TODO
+        if(!this.listaOrientacoes.isEmpty()) {
+            int lista = 0;
+            int opcao;
+
+            for(Orientacao atual: this.listaOrientacoes) {
+                Console.listar(++lista, atual.getTitulo());
+            }
+
+            Console.listar(++lista, "Voltar");
+            Console.selecioneOpcao();
+            opcao = Input.validarOpcao(1, lista);
+
+            if(opcao != lista) {
+                Console.mostrar(this.listaOrientacoes.get(opcao-1).toString());
+            }
+        } else {
+            Console.listaOrientacoesVazia();
+        }
     }
 
     private void adicionarPublicacao() {
 
-        //TODO
+        if(!this.listaColaboradores.isEmpty()) {
+
+            String titulo;
+            String conferenciaDePublicacao;
+            int anoPublicacao;
+
+            ArrayList<Colaborador> listaAutores;
+
+            Console.solicitarTituloPublicacao();
+            titulo = Input.lerString();
+
+            Console.solicitarConferenciaDePublicacao();
+            conferenciaDePublicacao = Input.lerString();
+
+            Console.solicitarAnoPublicacao();
+            anoPublicacao = Input.lerInt();
+
+            Console.selecioneOsAutores();
+            listaAutores = escolherAutores();
+
+            this.listaPublicacoes.add(new Publicacao(titulo, conferenciaDePublicacao, anoPublicacao, null, listaAutores));
+            this.relatorio.incrementarPublicacoes();
+            Console.publicacaoAdicionada();
+        } else {
+            Console.nenhumAutorDisponivel();
+        }
+
+    }
+
+    private ArrayList<Colaborador> escolherAutores() {
+
+        ArrayList<Colaborador> autores = new ArrayList<>();
+
+        if(!this.listaColaboradores.isEmpty()) {
+            int lista;
+            int opcao;
+            Colaborador autor;
+
+            do {
+                lista = 0;
+                for(Colaborador atual: this.listaColaboradores) {
+                    Console.listar(++lista, atual.getNome());
+                }
+
+                Console.selecioneOpcao();
+                opcao = Input.validarOpcao(1, lista);
+
+                autor = this.listaColaboradores.get(opcao-1);
+                if(!autores.contains(autor)) {
+                    autores.add(autor);
+                } else {
+                    Console.autorJaSelecionado();
+                }
+
+                Console.menuOutroAutor();
+            } while(Input.validarOperacaoBinaria());
+        }
+
+        return autores;
     }
 
     private void adicionarOrientacao() {
 
+        String titulo;
+        String texto;
+        Colaborador autor;
+        boolean autorValido = false;
+        int lista = 0;
+        int opcao;
+        Orientacao novaOrientacao;
+
+        Console.solicitarTituloOrientacao();
+        titulo = Input.lerString();
+
+        Console.solicitarTextoOrientacao();
+        texto = Input.lerString();
+
+        do {
+
+            Console.selecioneAutorOrientacao();
+            for(Colaborador atual: this.listaColaboradores) {
+                Console.listar(++lista, atual.getNome());
+            }
+
+            Console.selecioneOpcao();
+            opcao = Input.validarOpcao(1, lista);
+
+            autor = this.listaColaboradores.get(opcao-1);
+            novaOrientacao = Orientacao.criarOrientacao(titulo, texto, autor);
+
+            if(novaOrientacao != null) {
+                autorValido = true;
+            }
+        }while(!autorValido);
+
+        this.listaOrientacoes.add(novaOrientacao);
+        this.relatorio.incrementarOrientacoes();
+        Console.orientacaoAdicionada();
+    }
+
+    private void menuInformacoes() {
+
+        int opcao;
+        boolean voltar = false;
+
+        do {
+            Console.menuInformacoes();
+            opcao = Input.validarOpcao(1, 4);
+
+            switch(opcao) {
+                case 1:
+                    consultarColaborador();
+                    break;
+                case 2:
+                    consultarProjeto();
+                    break;
+                case 3:
+                    Console.mostrar(this.relatorio.toString());
+                    break;
+                case 4:
+                default:
+                    voltar = true;
+            }
+        } while(!voltar);
+    }
+
+    private void alocarColaborador(Projeto projeto) {
+
         //TODO
     }
 
-    private void informacoes() {
+    private void associarPublicacao(Projeto projeto) {
 
+        //TODO
+    }
+
+    private void consultarColaborador() {
+
+        //TODO
+    }
+
+    private void consultarProjeto() {
 
         //TODO
     }

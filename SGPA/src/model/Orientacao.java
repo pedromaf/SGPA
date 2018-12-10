@@ -18,7 +18,7 @@ public class Orientacao {
         this.data = new Data();
     }
 
-    public Orientacao criarOrientacao(String titulo, String texto, Colaborador autor) {
+    public static Orientacao criarOrientacao(String titulo, String texto, Colaborador autor) {
 
         if(autor.eProfessor()) {
             return (new Orientacao(titulo, texto, autor));
@@ -30,6 +30,11 @@ public class Orientacao {
 
 
     //GERAL
+    public String getTitulo() {
+
+        return this.titulo;
+    }
+
     public String toString() {
 
         return ("Titulo: " + this.titulo + "\n" +

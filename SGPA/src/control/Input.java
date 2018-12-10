@@ -28,10 +28,7 @@ public class Input {
 
     public static boolean validarOperacaoBinaria() {
 
-        if(validarOpcao(1,2) == 1) {
-            return true;
-        }
-        return false;
+        return (validarOpcao(1,2) == 1);
     }
 
 

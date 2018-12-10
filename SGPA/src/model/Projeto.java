@@ -1,7 +1,7 @@
 package model;
 
-import control.Input;
 import model.sistema.Data;
+import model.sistema.Relatorio;
 import view.Console;
 
 import java.util.ArrayList;
@@ -41,6 +41,33 @@ public class Projeto {
     }
 
 
+    //REMOVER COLABORADOR
+    public void removerColaborador() {
+
+        //TODO
+    }
+
+
+    //ESTADO
+    public void alterarEstado() {
+
+        if(this.estado != Estado.CONCLUIDO) {
+            if(emElaboracao()) {
+                iniciarProjeto();
+            } else {
+                concluirProjeto();
+            }
+        } else {
+            Console.projetoJaConcluido();
+        }
+    }
+
+    public boolean emElaboracao() {
+
+        return (this.estado == Estado.ELABORACAO);
+    }
+
+
     //VALIDACAO
     private boolean validarRequesitosMinimosIniciar() {
 
@@ -59,6 +86,10 @@ public class Projeto {
         if(validarRequesitosMinimosIniciar()) {
             this.estado = Estado.ANDAMENTO;
             this.dataInicio = new Data();
+            Console.projetoIniciado();
+            Relatorio relatorio = Relatorio.getInstancia();
+            relatorio.decrementarProjetosElaboracao();
+            relatorio.incrementarProjetosAndamento();
         } else {
             Console.requisitosNecessariosIniciar();
         }
@@ -69,6 +100,10 @@ public class Projeto {
         if(validarRequesitosMinimosConcluir()) {
             this.estado = Estado.CONCLUIDO;
             this.dataConclusao = new Data();
+            Console.projetoConcluido();
+            Relatorio relatorio = Relatorio.getInstancia();
+            relatorio.decrementarProjetosAndamento();
+            relatorio.incrementarProjetosConcluidos();
         } else {
             Console.requisitosNecessariosConcluir();
         }
@@ -81,14 +116,20 @@ public class Projeto {
         return this.titulo;
     }
 
-    public boolean emElaboracao() {
+    private String estadoString() {
 
-        return (this.estado == Estado.ELABORACAO);
+        if(this.estado == Estado.ELABORACAO) {
+            return "Em elaboracao";
+        } else if(this.estado == Estado.ANDAMENTO) {
+            return "Em andamento";
+        } else {
+            return "Concluido";
+        }
     }
 
     public String toString() {
 
-        return ("Titulo: " + this.titulo + "\n" +
+        return ("Titulo: " + this.titulo + " (" + estadoString() + ")\n" +
                 "Descricao: " + this.descricao + "\n");
     }
 }
