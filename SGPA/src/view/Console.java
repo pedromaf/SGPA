@@ -264,6 +264,16 @@ public class Console {
         System.out.println("Colaborador removido do projeto!\n");
     }
 
+    public static void colaboradorAlocado() {
+
+        System.out.println("Colaborador alocado!\n");
+    }
+
+    public static void removerColaboradorInvalido() {
+
+        System.out.println("Nao e possivel remover um colaborador com o projeto em andamento ou concluido.\n");
+    }
+
 
     //PUBLICACAO
     public static void listaPublicacoesVazia() {

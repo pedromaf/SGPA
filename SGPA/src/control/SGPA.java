@@ -242,7 +242,7 @@ class SGPA {
             opcao = Input.validarOpcao(1, lista);
 
             if(opcao != lista) {
-                Console.mostrar(this.listaPublicacoes.get(opcao-1).toString());
+                this.listaPublicacoes.get(opcao-1).informacao();
             }
         } else {
             Console.listaPublicacoesVazia();
@@ -407,7 +407,7 @@ class SGPA {
             Colaborador colaborador;
 
             for(Colaborador atual: this.listaColaboradores) {
-                Console.listar(++lista, atual.toString());
+                Console.listar(++lista, atual.getNome());
             }
 
             Console.listar(++lista, "Voltar");
@@ -419,6 +419,8 @@ class SGPA {
                 if(!projeto.pertenceAoProjeto(colaborador)) {
                     if(colaborador.validoParaProjeto()) {
                         projeto.associarColaborador(colaborador);
+                        colaborador.associarProjeto(projeto);
+                        Console.colaboradorAlocado();
                     } else {
                         Console.colaboradorInvalidoParaProjeto();
                     }
@@ -469,7 +471,7 @@ class SGPA {
             int opcao;
 
             for(Colaborador atual: this.listaColaboradores) {
-                Console.listar(++lista, atual.toString());
+                Console.listar(++lista, atual.getNome());
             }
 
             Console.listar(++lista, "Voltar");

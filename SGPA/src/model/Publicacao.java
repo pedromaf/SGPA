@@ -1,5 +1,7 @@
 package model;
 
+import view.Console;
+
 import java.util.ArrayList;
 
 public class Publicacao {
@@ -28,6 +30,19 @@ public class Publicacao {
         }
     }
 
+    public void informacao() {
+
+        Console.mostrar(toString());
+        informacaoAutores();
+    }
+
+    private void informacaoAutores() {
+
+        Console.mostrar("Autores:");
+        for(Colaborador atual: this.listaAutores) {
+            atual.getNome();
+        }
+    }
 
     //GERAL
     public String getTitulo() {

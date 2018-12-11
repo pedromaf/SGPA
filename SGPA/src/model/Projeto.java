@@ -42,21 +42,26 @@ public class Projeto {
     public void removerColaborador() {
 
         if(!this.listaColaboradores.isEmpty()) {
-            int lista = 0;
-            int opcao;
+            if(this.estado == Estado.ELABORACAO) {
+                int lista = 0;
+                int opcao;
 
-            Console.selecioneColaboradorParaRemover();
-            for(Colaborador atual: this.listaColaboradores) {
-                Console.listar(++lista, atual.getNome());
-            }
+                Console.selecioneColaboradorParaRemover();
+                for(Colaborador atual: this.listaColaboradores) {
+                    Console.listar(++lista, atual.getNome());
+                }
 
-            Console.listar(++lista, "Voltar");
-            Console.selecioneOpcao();
-            opcao = Input.validarOpcao(1, lista);
+                Console.listar(++lista, "Voltar");
+                Console.selecioneOpcao();
+                opcao = Input.validarOpcao(1, lista);
 
-            if(opcao != lista) {
-                this.listaColaboradores.remove(opcao-1);
-                Console.colaboradorRemovidoDoProjeto();
+                if(opcao != lista) {
+                    Colaborador colaborador = this.listaColaboradores.remove(opcao-1);
+                    colaborador.desassociarProjeto(this);
+                    Console.colaboradorRemovidoDoProjeto();
+                }
+            } else {
+                Console.removerColaboradorInvalido();
             }
         } else {
             Console.projetoSemColaboradores();
@@ -115,6 +120,11 @@ public class Projeto {
     public boolean emElaboracao() {
 
         return (this.estado == Estado.ELABORACAO);
+    }
+
+    public boolean emAndamento() {
+
+        return (this.estado == Estado.ANDAMENTO);
     }
 
 
@@ -226,6 +236,7 @@ public class Projeto {
     public String toString() {
 
         return ("Titulo: " + this.titulo + " (" + estadoString() + ")\n" +
-                "Descricao: " + this.descricao + "\n");
+                "Descricao: " + this.descricao + "\n" +
+                "Objetivo: " + this.objetivo + "\n");
     }
 }

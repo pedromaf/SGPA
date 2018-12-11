@@ -92,6 +92,18 @@ public class Colaborador {
         }
     }
 
+
+    //PROJETO
+    public void associarProjeto(Projeto projeto) {
+
+        this.listaProjetosAssociados.add(projeto);
+    }
+
+    public void desassociarProjeto(Projeto projeto) {
+
+        this.listaProjetosAssociados.remove(projeto);
+    }
+
     //GERAL
     private String stringTipo() {
 
@@ -115,15 +127,23 @@ public class Colaborador {
 
     public String getNome() {
 
-        return this.nome;
+        return (this.nome + " (" + stringTipo() + ")");
     }
 
     public boolean validoParaProjeto() {
 
         if(this.tipo == Tipo.ALUNOGRADUACAO) {
-            return (this.listaProjetosAssociados.size() < 2);
-        } else {
-            return true;
+            int projetosEmAndamento = 0;
+            for (Projeto atual : this.listaProjetosAssociados) {
+                if (atual.emElaboracao() || atual.emAndamento()) {
+                    projetosEmAndamento++;
+
+                    if (projetosEmAndamento == 2) {
+                        return false;
+                    }
+                }
+            }
         }
+        return true;
     }
 }
