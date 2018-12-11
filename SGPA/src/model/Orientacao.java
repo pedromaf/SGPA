@@ -16,6 +16,7 @@ public class Orientacao {
         this.texto = texto;
         this.autor = autor;
         this.data = new Data();
+        autor.associarOrientacao(this);
     }
 
     public static Orientacao criarOrientacao(String titulo, String texto, Colaborador autor) {

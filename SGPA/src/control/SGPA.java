@@ -147,6 +147,8 @@ class SGPA {
         String titulo;
         String descricao;
         String objetivo;
+        String agenciaFinanciadora;
+        double valorFinanciado;
         Projeto novoProjeto;
 
         Console.solicitarTituloProjeto();
@@ -158,7 +160,13 @@ class SGPA {
         Console.solicitarObjetivoProjeto();
         objetivo = Input.lerString();
 
-        novoProjeto = new Projeto(titulo, descricao, objetivo);
+        Console.solicitarAgenciaFinanciadora();
+        agenciaFinanciadora = Input.lerString();
+
+        Console.solicitarValorFinanciado();
+        valorFinanciado = Input.lerDouble();
+
+        novoProjeto = new Projeto(titulo, descricao, objetivo, agenciaFinanciadora, valorFinanciado);
         this.listaProjetos.add(novoProjeto);
         Console.projetoCriado();
         this.relatorio.incrementarProjetos();
@@ -190,34 +198,33 @@ class SGPA {
 
     private void menuProjeto(Projeto projeto) {
 
-        int opcao;
-        boolean voltar = false;
+        if(projeto != null) {
+            int opcao;
+            boolean voltar = false;
 
-        do {
-            Console.menuProjeto(projeto.getTitulo(), projeto.toString(), projeto.emElaboracao());
-            opcao = Input.validarOpcao(1, 6);
+            do {
+                Console.menuProjeto(projeto.getTitulo(), projeto.toString(), projeto.emElaboracao());
+                opcao = Input.validarOpcao(1, 6);
 
-            switch(opcao) {
-                case 1:
-                    alocarColaborador(projeto);
-                    break;
-                case 2:
-                    projeto.alterarInformacoes();
-                    break;
-                case 3:
-                    associarPublicacao(projeto);
-                    break;
-                case 4:
-                    projeto.removerColaborador();
-                    break;
-                case 5:
-                    projeto.alterarEstado();
-                    break;
-                case 6:
-                default:
-                    voltar = true;
-            }
-        } while(!voltar);
+                switch(opcao) {
+                    case 1:
+                        alocarColaborador(projeto);
+                        break;
+                    case 2:
+                        associarPublicacao(projeto);
+                        break;
+                    case 3:
+                        projeto.removerColaborador();
+                        break;
+                    case 4:
+                        projeto.alterarEstado();
+                        break;
+                    case 5:
+                    default:
+                        voltar = true;
+                }
+            } while(!voltar);
+        }
     }
 
     private void publicacoes() {
@@ -394,22 +401,110 @@ class SGPA {
 
     private void alocarColaborador(Projeto projeto) {
 
-        //TODO
+        if(projeto.emElaboracao()) {
+            int lista = 0;
+            int opcao;
+            Colaborador colaborador;
+
+            for(Colaborador atual: this.listaColaboradores) {
+                Console.listar(++lista, atual.toString());
+            }
+
+            Console.listar(++lista, "Voltar");
+            Console.selecioneOpcao();
+            opcao = Input.validarOpcao(1, lista);
+
+            if(opcao != lista) {
+                colaborador = this.listaColaboradores.get(opcao-1);
+                if(!projeto.pertenceAoProjeto(colaborador)) {
+                    if(colaborador.validoParaProjeto()) {
+                        projeto.associarColaborador(colaborador);
+                    } else {
+                        Console.colaboradorInvalidoParaProjeto();
+                    }
+                } else {
+                    Console.colaboradorJaPertenceAoProjeto();
+                }
+            }
+        } else {
+            Console.alocacaoNaoPermitida();
+        }
+
     }
 
     private void associarPublicacao(Projeto projeto) {
 
-        //TODO
+        if(!this.listaPublicacoes.isEmpty()) {
+            int lista = 0;
+            int opcao;
+            Publicacao publicacao;
+
+            for(Publicacao atual: this.listaPublicacoes) {
+                Console.listar(++lista, atual.getTitulo());
+            }
+
+            Console.listar(++lista, "Voltar");
+            Console.selecioneOpcao();
+            opcao = Input.validarOpcao(1, lista);
+
+            if(opcao != lista) {
+                publicacao = this.listaPublicacoes.get(opcao-1);
+                if(!projeto.associadaAoProjeto(publicacao)) {
+                    projeto.associarPublicacao(publicacao);
+                    Console.publicacaoAssociada();
+                } else {
+                    Console.publicacaoJaAssociada();
+                }
+            }
+        } else {
+            Console.listaPublicacoesVazia();
+        }
     }
 
     private void consultarColaborador() {
 
-        //TODO
+        if(!this.listaColaboradores.isEmpty()) {
+
+            int lista = 0;
+            int opcao;
+
+            for(Colaborador atual: this.listaColaboradores) {
+                Console.listar(++lista, atual.toString());
+            }
+
+            Console.listar(++lista, "Voltar");
+            Console.selecioneOpcao();
+            opcao = Input.validarOpcao(1, lista);
+
+            if(opcao != lista) {
+                this.listaColaboradores.get(opcao-1).informacoes();
+            }
+        } else {
+            Console.nenhumColaboradorRegistrado();
+        }
     }
 
     private void consultarProjeto() {
 
-        //TODO
+        if(!this.listaProjetos.isEmpty()) {
+
+            int lista = 0;
+            int opcao;
+
+            for(Projeto atual: this.listaProjetos) {
+                Console.listar(++lista, atual.toString());
+            }
+
+            Console.listar(++lista, "Voltar");
+            Console.selecioneOpcao();
+            opcao = Input.validarOpcao(1, lista);
+
+            if(opcao != lista) {
+                this.listaProjetos.get(opcao-1).informacoes();
+            }
+        } else {
+            Console.listaProjetosVazia();
+        }
     }
 
 }

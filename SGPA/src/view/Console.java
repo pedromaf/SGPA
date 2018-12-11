@@ -102,6 +102,16 @@ public class Console {
         System.out.println("Digite o texto da orientacao:");
     }
 
+    public static void solicitarAgenciaFinanciadora() {
+
+        System.out.println("Digite o nome da agencia financiadora:");
+    }
+
+    public static void solicitarValorFinanciado() {
+
+        System.out.println("Digite o valor financiado pela agencia:");
+    }
+
 
     //MENUS
     public static void menuLogin() {
@@ -136,15 +146,14 @@ public class Console {
         System.out.println(informacoesProjeto);
 
         System.out.println("[1] Alocar colaborador");
-        System.out.println("[2] Alterar informacoes");
-        System.out.println("[3] Associar publicacao");
-        System.out.println("[4] Remover colaborador");
+        System.out.println("[2] Associar publicacao");
+        System.out.println("[3] Remover colaborador");
         if(emElaboracao) {
-            System.out.println("[5] Iniciar projeto");
+            System.out.println("[4] Iniciar projeto");
         } else {
-            System.out.println("[5] Concluir projeto");
+            System.out.println("[4] Concluir projeto");
         }
-        System.out.println("[6] Voltar");
+        System.out.println("[5] Voltar");
 
         selecioneOpcao();
     }
@@ -180,7 +189,6 @@ public class Console {
 
         selecioneOpcao();
     }
-
 
 
     //REGISTRAR COLABORADOR
@@ -226,6 +234,36 @@ public class Console {
         System.out.println("Projeto Iniciado!\n");
     }
 
+    public static void alocacaoNaoPermitida() {
+
+        System.out.println("Alocacao de colaborador nao permitida.\n");
+    }
+
+    public static void colaboradorJaPertenceAoProjeto() {
+
+        System.out.println("Colaborador ja pertence ao projeto!\n");
+    }
+
+    public static void colaboradorInvalidoParaProjeto() {
+
+        System.out.println("Colaborador invalido para o projeto! Limite de projetos atingido.\n");
+    }
+
+    public static void projetoSemColaboradores() {
+
+        System.out.println("Nenhum colaborador associado ao projeto.\n");
+    }
+
+    public static void selecioneColaboradorParaRemover() {
+
+        System.out.println("Selecione o colaborador que deseja remover do projeto:");
+    }
+
+    public static void colaboradorRemovidoDoProjeto() {
+
+        System.out.println("Colaborador removido do projeto!\n");
+    }
+
 
     //PUBLICACAO
     public static void listaPublicacoesVazia() {
@@ -253,6 +291,16 @@ public class Console {
         System.out.println("Voce ja selecionou este autor!\n");
     }
 
+    public static void publicacaoJaAssociada() {
+
+        System.out.println("Publicacao ja esta associada ao projeto!\n");
+    }
+
+    public static void publicacaoAssociada() {
+
+        System.out.println("Publicacao associada ao projeto!\n");
+    }
+
 
     //ORIENTACAO
     public static void autorNaoEProfessor() {
@@ -268,5 +316,12 @@ public class Console {
     public static void orientacaoAdicionada() {
 
         System.out.println("Orientacao adicionada!\n");
+    }
+
+
+    //INFORMACOES
+    public static void nenhumColaboradorRegistrado() {
+
+        System.out.println("Nao ha colaboradores registrados!\n");
     }
 }

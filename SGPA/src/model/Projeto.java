@@ -1,5 +1,6 @@
 package model;
 
+import control.Input;
 import model.sistema.Data;
 import model.sistema.Relatorio;
 import view.Console;
@@ -15,36 +16,85 @@ public class Projeto {
 
     private Estado estado;
     private String titulo;
-    private Data dataInicio;
-    private Data dataConclusao;
-    private String agenciaFinanciadora;
-    private double valorFinanciado;
     private String objetivo;
     private String descricao;
+    private String agenciaFinanciadora;
+    private double valorFinanciado;
+    private Data dataInicio;
+    private Data dataConclusao;
     private ArrayList<Colaborador> listaColaboradores;
     private ArrayList<Publicacao> listaPublicacoesAssociadas;
 
-    public Projeto(String titulo, String descricao, String objetivo) {
+    public Projeto(String titulo, String descricao, String objetivo, String agenciaFinanciadora, double valorFinanciado) {
 
         this.titulo = titulo;
         this.descricao = descricao;
         this.objetivo = objetivo;
+        this.agenciaFinanciadora = agenciaFinanciadora;
+        this.valorFinanciado = valorFinanciado;
         this.listaColaboradores = new ArrayList<>();
         this.listaPublicacoesAssociadas = new ArrayList<>();
         this.estado = Estado.ELABORACAO;
     }
 
-    //ALTERAR INFORMACOES
-    public void alterarInformacoes() {
 
-        //TODO
+    //COLABORADOR
+    public void removerColaborador() {
+
+        if(!this.listaColaboradores.isEmpty()) {
+            int lista = 0;
+            int opcao;
+
+            Console.selecioneColaboradorParaRemover();
+            for(Colaborador atual: this.listaColaboradores) {
+                Console.listar(++lista, atual.getNome());
+            }
+
+            Console.listar(++lista, "Voltar");
+            Console.selecioneOpcao();
+            opcao = Input.validarOpcao(1, lista);
+
+            if(opcao != lista) {
+                this.listaColaboradores.remove(opcao-1);
+                Console.colaboradorRemovidoDoProjeto();
+            }
+        } else {
+            Console.projetoSemColaboradores();
+        }
+    }
+
+    public void associarColaborador(Colaborador colaborador) {
+
+        if(emElaboracao()) {
+            this.listaColaboradores.add(colaborador);
+        }
+    }
+
+    public boolean pertenceAoProjeto(Colaborador colaborador) {
+
+        for(Colaborador atual: this.listaColaboradores) {
+            if(atual.equals(colaborador)) {
+                return true;
+            }
+        }
+        return false;
     }
 
 
-    //REMOVER COLABORADOR
-    public void removerColaborador() {
+    //PUBLICACAO
+    public boolean associadaAoProjeto(Publicacao publicacao) {
 
-        //TODO
+        for(Publicacao atual: this.listaPublicacoesAssociadas) {
+            if(atual.equals(publicacao)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public void associarPublicacao(Publicacao publicacao) {
+
+        this.listaPublicacoesAssociadas.add(publicacao);
     }
 
 
@@ -71,14 +121,17 @@ public class Projeto {
     //VALIDACAO
     private boolean validarRequesitosMinimosIniciar() {
 
-        //TODO
+        for(Colaborador atual: this.listaColaboradores) {
+            if(atual.eProfessor()) {
+                return true;
+            }
+        }
         return false;
     }
 
     private boolean validarRequesitosMinimosConcluir() {
 
-        //TODO
-        return false;
+        return (!this.listaPublicacoesAssociadas.isEmpty());
     }
 
     public void iniciarProjeto() {
@@ -106,6 +159,49 @@ public class Projeto {
             relatorio.incrementarProjetosConcluidos();
         } else {
             Console.requisitosNecessariosConcluir();
+        }
+    }
+
+
+
+    //INFORMACAO
+    public void informacoes() {
+
+        Console.mostrar("Titulo: " + this.titulo);
+        Console.mostrar("Estado: " + estadoString());
+        Console.mostrar("Descricao: " + this.descricao);
+        Console.mostrar("Objetivo: " + this.objetivo);
+        Console.mostrar("Agencia Financiadora: " + this.agenciaFinanciadora);
+        Console.mostrar("Valor Financiado: " + this.valorFinanciado);
+        if(this.dataInicio != null) {
+            Console.mostrar("Data de inicio: " + this.dataInicio.toString());
+        }
+        if(this.dataConclusao != null) {
+            Console.mostrar("Data de conclusao: " + this.dataConclusao.toString());
+        }
+
+        if(!this.listaColaboradores.isEmpty()) {
+            informacoesColaboradores();
+        }
+
+        if(!this.listaPublicacoesAssociadas.isEmpty()) {
+            informacoesPublicacoesAssociadas();
+        }
+    }
+
+    private void informacoesColaboradores() {
+
+        Console.mostrar("\nLista de colaboradores:");
+        for(Colaborador atual: this.listaColaboradores) {
+            Console.mostrar(atual.getNome());
+        }
+    }
+
+    private void informacoesPublicacoesAssociadas() {
+
+        Console.mostrar("\nLista de publicacoes associadas:");
+        for(Publicacao atual: this.listaPublicacoesAssociadas) {
+            Console.mostrar(atual.toString());
         }
     }
 

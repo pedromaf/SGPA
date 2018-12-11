@@ -1,5 +1,7 @@
 package model;
 
+import view.Console;
+
 import java.util.ArrayList;
 
 public class Colaborador {
@@ -30,7 +32,82 @@ public class Colaborador {
     }
 
 
+    //INFORMACOES
+    public void informacoes() {
+
+        Console.mostrar("Nome: " + this.nome);
+        Console.mostrar("Email: " + this.email);
+        Console.mostrar("Tipo: " + stringTipo());
+
+        if(!this.listaProjetosAssociados.isEmpty()) {
+            informacoesProjetos();
+        }
+
+        if(!this.listaPublicacoesAssociadas.isEmpty()) {
+            informacoesPublicacoes();
+        }
+
+        if((this.tipo == Tipo.PROFESSOR) && !this.listaOrientacoesAssociadas.isEmpty()) {
+            informacoesOrientacoes();
+        }
+    }
+
+    private void informacoesProjetos() {
+
+        Console.mostrar("\nProjetos associados:");
+        for(Projeto atual: this.listaProjetosAssociados) {
+            Console.mostrar(atual.toString());
+        }
+    }
+
+    private void informacoesPublicacoes() {
+
+        Console.mostrar("\nPublicacoes associadas:");
+        for(Publicacao atual: this.listaPublicacoesAssociadas) {
+            Console.mostrar(atual.toString());
+        }
+    }
+
+    private void informacoesOrientacoes() {
+
+        Console.mostrar("\nOrientacoes associadas:");
+        for(Orientacao atual: this.listaOrientacoesAssociadas) {
+            Console.mostrar(atual.toString());
+        }
+    }
+
+
+    //PUBLICACAO
+    public void associarPublicacao(Publicacao publicacao) {
+
+        this.listaPublicacoesAssociadas.add(publicacao);
+    }
+
+
+    //ORIENTACAO
+    public void associarOrientacao(Orientacao orientacao) {
+
+        if(this.tipo == Tipo.PROFESSOR) {
+            this.listaOrientacoesAssociadas.add(orientacao);
+        }
+    }
+
     //GERAL
+    private String stringTipo() {
+
+        if(this.tipo == Tipo.PESQUISADOR) {
+            return "Pesquisador";
+        } else if(this.tipo == Tipo.PROFESSOR) {
+            return "Professor";
+        } else if(this.tipo == Tipo.ALUNODOUTORADO) {
+            return "Aluno de doutorado";
+        } else if(this.tipo == Tipo.ALUNOMESTRADO) {
+            return "Aluno de mestrado";
+        } else {
+            return "Aluno de graduacao";
+        }
+    }
+
     public boolean eProfessor() {
 
         return (this.tipo == Tipo.PROFESSOR);
@@ -39,5 +116,14 @@ public class Colaborador {
     public String getNome() {
 
         return this.nome;
+    }
+
+    public boolean validoParaProjeto() {
+
+        if(this.tipo == Tipo.ALUNOGRADUACAO) {
+            return (this.listaProjetosAssociados.size() < 2);
+        } else {
+            return true;
+        }
     }
 }

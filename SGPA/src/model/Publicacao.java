@@ -18,7 +18,16 @@ public class Publicacao {
         this.anoPublicacao = anoPublicacao;
         this.projetoAssociado = projetoAssociado;
         this.listaAutores = listaAutores;
+        associaAutores();
     }
+
+    private void associaAutores() {
+
+        for(Colaborador atual: this.listaAutores) {
+            atual.associarPublicacao(this);
+        }
+    }
+
 
     //GERAL
     public String getTitulo() {
